@@ -17,7 +17,7 @@
       <div class="nav-bar right">
        <ul class="button-group">
          <li><a href="Employee.jsp" class="button">Employee</a></li>
-         <li><a href="#" class="button">Stock</a></li>
+         <li><a href="stock.jsp" class="button">Stock</a></li>
          <li><a href="student.jsp" class="button">Student</a></li>
         </ul>
       </div>
@@ -102,11 +102,7 @@
         </div>
         <div class="large-6 columns">
           <ul class="inline-list right">
-            <li><a href="#">Link 1</a></li>
-            <li><a href="#">Link 2</a></li>
-            <li><a href="#">Link 3</a></li>
-            <li><a href="#">Link 4</a></li>
-          </ul>
+         </ul>
         </div>
       </div>
     </div>

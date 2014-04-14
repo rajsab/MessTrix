@@ -17,7 +17,7 @@
       <div class="nav-bar right">
        <ul class="button-group">
          <li><a href="Employee.jsp" class="button">Employee</a></li>
-         <li><a href="#" class="button">Stock</a></li>
+         <li><a href="stock.jsp" class="button">Stock</a></li>
          <li><a href="student.jsp" class="button">Student</a></li>
         </ul>
       </div>
@@ -54,9 +54,9 @@
  
       <hr />
  <s:form action="student-Entry">
- <s:textfield label="Name"></s:textfield>
- <s:textfield label="Roll-Number"></s:textfield>
- <s:textfield label="Mess Card Number"></s:textfield>
+ <s:textfield label="Name" key="name"></s:textfield>
+ <s:textfield label="Roll-Number" key="roll"></s:textfield>
+ <s:textfield label="Mess Card Number" key="card_number"></s:textfield>
   
 <s:submit></s:submit> 
   </s:form>
@@ -75,10 +75,10 @@
  
       <h5>Categories</h5>
       <ul class="side-nav">
-        <li><a href="www.facebook.com">Student Entry</a></li>
-        <li><a href="#">Student extra</a></li>
-        <li><a href="#">Mess cut</a></li>
-	<li><a href="#">Student Check</a></li>
+        <li><a href="student.jsp">Student Entry</a></li>
+        <li><a href="student_Extra.jsp">Student extra</a></li>
+        <li><a href="messcut.jsp">Mess cut</a></li>
+	<li><a href='<s:url action="displayMonths"></s:url>'>Student Check</a></li>
       </ul>
  
      
@@ -102,11 +102,7 @@
         </div>
         <div class="large-6 columns">
           <ul class="inline-list right">
-            <li><a href="#">Link 1</a></li>
-            <li><a href="#">Link 2</a></li>
-            <li><a href="#">Link 3</a></li>
-            <li><a href="#">Link 4</a></li>
-          </ul>
+           </ul>
         </div>
       </div>
     </div>

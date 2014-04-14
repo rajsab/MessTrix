@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC 
-	 "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
-    "http://struts.apache.org/dtds/struts-2.3.dtd">  
+	 "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"  
+    "http://struts.apache.org/dtds/struts-2.5.dtd">  
 <struts>
 <constant name="struts.devMode" value="true"></constant>
 	
@@ -9,22 +9,112 @@
 		
 		<action name="login" class="actionClass.LoginAction">
 			<result name="success">Employee.jsp</result>
-			<result name="failure">Index.jsp</result>
+			<result name="input">Index.jsp</result>
 		</action>
 		
 		<action name="addemployee" class="actionClass.employee.add_Employee">
 			<result name="success">Add_employee.jsp</result>
 			<result name="fail">Index.jsp</result>
 		</action>
-		<action name="getemployee" class="actionClass.employee.show_employees">
+		<action name="getEmployee" class="actionClass.employee.show_employees">
 			<result name="success">showEmployee.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 
 		<action name="payemployee" class="actionClass.employee.payment_Employee">
 			<result name="success">Employee_payment.jsp</result>
-			<result name="fail">Index.jsp</result>
+			<result name="failure">Index.jsp</result>
 		</action>
 		
+		<action name="addvendor" class="actionClass.stock.AddVendor">
+			<result name="success">addVendor.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+		<action name="addItem" class="actionClass.stock.Add_item">
+			<result name="success">stock.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+		<action name="getItem" class="actionClass.stock.Showitem">
+			<result name="success">showitemStock.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+		<action name="editItem" class="actionClass.stock.Updatestock" method="display">
+			<result name="success">updatestock.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+	
+		<action name="updateStock" class="actionClass.stock.Updatestock">
+			<result name="success">updatestock.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+
+		
+		<action name="displayEmployeeId" class="actionClass.employee.ShowcomboBox" method="display_combobox">
+			<result name="display">Edit_employee.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+		<action name="displayEmployee_detail" class="actionClass.employee.ShowcomboBox">
+			<result name="success">showedit_employee.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+		<action name="student-Entry" class="actionClass.student.Enroll_student">
+			<result name="success">student.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+		<action name="studentExtra" class="actionClass.student.Addextra">
+			<result name="success">student_Extra.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+		<action name="messcut" class="actionClass.student.Messcut">
+			<result name="success">messcut.jsp</result>
+			<result name="input">messcut.jsp</result>
+		</action>
+		
+		<action name="editEmployee" class="actionClass.employee.editEmployee">
+			<result name="success">Employee.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+			
+		<action name="displayMonths" class="actionClass.student.studentQuery" method="fillMonth">
+			<result name="filled">showExtra.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+		<action name="showStudentQuery" class="actionClass.student.studentQuery">
+			<result name="success">showStudentQuery.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		<action name="addBill" class="actionClass.stock.AddBill">
+			<result name="success">addBill.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		<action name="billDue" class="actionClass.stock.DueBill">
+			<result name="success">dueBill.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		<action name="displayMonth" class="actionClass.student.studentQuery" method="fillMonth">
+			<result name="filled">SelectMonth.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		<action name="ShowPaymentHistory" class="actionClass.employee.PaymentHistory">
+			<result name="success">showPayment.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		<action name="autoComplete" class="actionClass.stock.autoComplete">
+			<result name="success">editStock.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		<action name="showMonth" class="actionClass.stock.Showitem" method="showmonth">
+			<result name="filled">selectMonth.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
 	</package>
 </struts>

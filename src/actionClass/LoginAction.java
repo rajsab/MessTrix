@@ -19,11 +19,14 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	public String execute(){
 			try{
 				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
-				String sql="select username from login where userid='"+userid+"' and password='"+password+"' and mess_name='"+m_name+"'";
+				String sql="select username from login where userid=? and password=? and mess_name=?";
 				PreparedStatement ps=con.prepareStatement(sql);
+				ps.setString(1, userid);
+				ps.setString(2, password);
+				ps.setString(3, m_name);
 				ResultSet rs=ps.executeQuery();
-				System.out.println("here");
-				System.out.println(userid+" "+m_name+" "+password);
+				//System.out.println("here");
+			//	System.out.println(userid+" "+m_name+" "+password);
 				
 				while(rs.next()){
 					System.out.print("Hello");
@@ -32,15 +35,20 @@ public class LoginAction extends ActionSupport implements SessionAware{
 					v.put("a", m_name);
 					//v.put("name", m_name);
 					temp= "success";}
-				
-					
-		
 			}
 			catch(SQLException e){
 				System.out.print(e);
 			}
 			
 			return temp;
+	}
+	public void validate(){
+		if(getUserid().length()==0){
+			addFieldError("userid", "Please fill correct username");
+		}
+		if(getPassword().length()==0){
+			addFieldError("password", "Please fill correct password");
+		}
 	}
 		public String getUsername() {
 			return username;

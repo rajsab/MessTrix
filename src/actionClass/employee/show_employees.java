@@ -7,7 +7,15 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 class employee{
-	private String employee_name,mob,wage,gender;
+	private String employee_name,mob,wage,gender,id;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	/**
 	 * @return the employee_name
@@ -76,13 +84,21 @@ public class show_employees extends ActionSupport {
 		
 	try{
 		messname=(String) session.get("a");
+		if(messname==null){
+			((org.apache.struts2.dispatcher.SessionMap) ActionContext.getContext().getSession()).invalidate(); //invalidates the session
+			ActionContext.getContext().getSession().clear();//clear session value
+			return "failure";
+		}
+		else{
 		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
-		String sql1="select name,wage,mob,gender from employee where mess_name='"+messname+"'";
+		String sql1="select id,name,wage,mob,gender from employee where mess_name=?";
 		PreparedStatement ps=con.prepareStatement(sql1);
+		ps.setString(1, messname);
 		ResultSet rs=ps.executeQuery();
 		System.out.println("Ok till here 1");
 		while(rs.next()){
 			employee e=new employee();
+			e.setId(rs.getString("id"));
 			e.setEmployee_name(rs.getString("name"));
 			e.setWage(rs.getString("wage"));
 			e.setMob(rs.getString("mob"));
@@ -93,10 +109,15 @@ public class show_employees extends ActionSupport {
 			send="success";
 		}
 		
-		
+		}
 	}
 	catch(SQLException e){
 		System.out.println(e);
+		
+			((org.apache.struts2.dispatcher.SessionMap) ActionContext.getContext().getSession()).invalidate(); //invalidates the session
+			ActionContext.getContext().getSession().clear();//clear session value
+			return "failure";
+		
 	}
 	return send;
 	}

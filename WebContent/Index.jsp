@@ -13,6 +13,8 @@
 <table>
 <tr align="left">
 <td class="Big"> Login </td></tr></table>
+<s:actionerror/>
+
 <s:form action="login">
 <s:textfield label="Userid" key="userid"></s:textfield></hline>
 <s:password label="Password" key="password"></s:password>

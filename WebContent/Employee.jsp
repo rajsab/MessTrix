@@ -18,7 +18,7 @@
       <div class="nav-bar right">
        <ul class="button-group">
          <li><a href="Employee.jsp" class="button">Employee</a></li>
-         <li><a href="#" class="button">Stock</a></li>
+         <li><a href="stock.jsp" class="button">Stock</a></li>
          <li><a href="student.jsp" class="button">Student</a></li>
         </ul>
       </div>
@@ -78,13 +78,12 @@
  
       <h5>Categories</h5>
       <ul class="side-nav">
-         <li><a href='<s:url action="getemployee"></s:url>'>Employee Detail</a></li>
+         <li><a href='<s:url action="getEmployee"></s:url>'>Employee Detail</a></li>
         <li><a href="Add_employee.jsp">Add Employee</a></li>
-        <li><a href="Edit_employee.jsp">Edit Employee</a></li>
-        <li><a href="Advance_payment.jsp">Advance Payment</a></li>
+        <li><a href='<s:url action="displayEmployeeId"></s:url>'>Edit Employee</a></li>
+        <li><a href='<s:url action="displayMonth"></s:url>'>Payment History</a></li>
         <li><a href="Employee_payment.jsp">Payment</a></li>
       </ul>
- 
       <div class="panel">
           </div>
  
@@ -107,11 +106,7 @@
         </div>
         <div class="large-6 columns">
           <ul class="inline-list right">
-            <li><a href="#">Link 1</a></li>
-            <li><a href="#">Link 2</a></li>
-            <li><a href="#">Link 3</a></li>
-            <li><a href="#">Link 4</a></li>
-          </ul>
+              </ul>
         </div>
       </div>
     </div>

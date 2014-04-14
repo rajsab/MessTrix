@@ -17,7 +17,7 @@
       <div class="nav-bar right">
        <ul class="button-group">
          <li><a href="Employee.jsp" class="button">Employee</a></li>
-         <li><a href="#" class="button">Stock</a></li>
+         <li><a href="stock.jsp" class="button">Stock</a></li>
          <li><a href="student.jsp" class="button">Student</a></li>
         </ul>
       </div>
@@ -53,14 +53,35 @@
      
  
       <hr />
+  
+    <table>
+ 
+  <thead>
+    <tr>
+      <th width="200">Name</th>
+      <th width="200">Wage</th>
+      <th width="150">Mobile</th>
+      <th width="150">gender</th>
+    </tr>
+  </thead>
+ 
+  <tbody>   
+ 
   <s:iterator value="name" var="temp">
-  <s:property value="#temp.employee_name" />
-  <s:property value="#temp.wage" />
-  <s:property value="#temp.mob" />
-  <s:property value="#temp.gender" />
-  </br>
+  <tr>
+  
+  <td><s:property value="#temp.employee_name" /></td>
+  <td><s:property value="#temp.wage" /></td>
+  <td><s:property value="#temp.mob" /></td>
+  <td><s:property value="#temp.gender" /></td>
+ 
+  </tr>
+
 </s:iterator>
-      
+ 
+</tbody>
+
+ </table>  
     </div>
    </article>
  
@@ -77,8 +98,8 @@
       <ul class="side-nav">
          <li><a href='<s:url action="getEmployee"></s:url>'>Employee Detail</a></li>
         <li><a href="Add_employee.jsp">Add Employee</a></li>
-        <li><a href="Edit_employee.jsp">Edit Employee</a></li>
-        <li><a href="Advance_payment.jsp">Advance Payment</a></li>
+        <li><a href='<s:url action="displayEmployeeId"></s:url>'>Edit Employee</a></li>
+        <li><a href='<s:url action="displayMonth"></s:url>'>Payment History</a></li>
         <li><a href="Employee_payment.jsp">Payment</a></li>
       </ul>
  
@@ -102,12 +123,7 @@
           <p>© Copyright no one at all. Go to town.</p>
         </div>
         <div class="large-6 columns">
-          <ul class="inline-list right">
-            <li><a href="#">Link 1</a></li>
-            <li><a href="#">Link 2</a></li>
-            <li><a href="#">Link 3</a></li>
-            <li><a href="#">Link 4</a></li>
-          </ul>
+          
         </div>
       </div>
     </div>
