@@ -1,5 +1,5 @@
 package actionClass.employee;
-
+import DatabaseConnection.sqlConnectivity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -41,6 +41,7 @@ class emp{
 public class PaymentHistory {
 	public String messname;
 	private String curMonth;
+	sqlConnectivity s=new sqlConnectivity();
 	private ArrayList<emp> detail=new ArrayList<emp>();
 	Map<?, ?> session = ActionContext.getContext().getSession();
 	public String execute(){
@@ -51,16 +52,32 @@ public class PaymentHistory {
 			return "failure";
 		}else{
 		try {
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
-			String sql="select e.id,e.name,sum(e.wage) as salary from payment p,employee e where D_O_P like ? and e.id=p.eid and e.mess_name=? group by p.eid";
+			String Conname,uname,pwd;
+			Conname=s.sql_connection;
+			uname=s.uname;
+			pwd=s.pwd;
+			try {
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Connection con=DriverManager.getConnection(Conname,uname,pwd);
+						
+			String sql="select p.eid,e.name,sum(p.wage) as salary from payment p,employee e where D_O_P like ? and e.id=p.eid and p.mess_name=? group by (p.eid)";
 			PreparedStatement ps=con.prepareStatement(sql);
 			ps.setString(1,"%-_"+curMonth+"-%");
 			ps.setString(2,messname);
-			//ps.setString(2, messname);
 			ResultSet rs=ps.executeQuery();
 			while (rs.next()) {
 				emp a=new emp();
-				a.setId(rs.getString("e.id"));
+				a.setId(rs.getString("p.eid"));
 				a.setName(rs.getString("e.name"));
 				a.setSalary(rs.getString("salary"));
 				detail.add(a);

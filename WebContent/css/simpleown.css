@@ -1,74 +1,91 @@
 @CHARSET "UTF-8";
-td{
-font-family:"Times New Roman",Times,#F0FFFF;
-color:#F0FFFF;
+
+td {
+	font-family: "Times New Roman", Times, #F0FFFF;
+	color: #F0FFFF;
 }
-td.Normal{font-style:normal;}
-td.Big{font-size:30px;}
-td.Small{font-size:15px;}
+
+td.Normal {
+	font-style: normal;
+}
+
+td.Big {
+	font-size: 30px;
+}
+
+td.Small {
+	font-size: 15px;
+}
+
 div.Middlebox {
-margin-top:100px;
-margin-left:500px;
-border:2px solid #a1a1a1;
-padding-top:25px;
-padding-right:50px;
-padding-left:50px;
-background:#00008B;
-width:300px;
-height:200px;
-border-radius:12px;
-box-shadow: 10px 10px 5px #888888;
+	margin-top: 100px;
+	margin-left: 500px;
+	border: 2px solid #a1a1a1;
+	padding-top: 25px;
+	padding-right: 50px;
+	padding-left: 50px;
+	background: #00008B;
+	width: 300px;
+	height: 200px;
+	border-radius: 12px;
+	box-shadow: 10px 10px 5px #888888;
 }
-div.SpaceVertical{
-height:20px;
-width:300px;
+
+div.SpaceVertical {
+	height: 20px;
+	width: 300px;
 }
-div.Heading{
-border:2px solid #a1a1a1;
-height:80px;
-border-radius:12px;
-box-shadow:10px 10px 5px #000000;	
+
+div.Heading {
+	border: 2px solid #a1a1a1;
+	height: 80px;
+	border-radius: 12px;
+	box-shadow: 10px 10px 5px #000000;
 }
-div.Seperator{
-	height:75px;
+
+div.Seperator {
+	height: 75px;
 	background-color: white;
 	width: .5px;
 }
-div.Tab{
-width:90px;
-height:78px;
 
-}
-ul
-{
-list-style-type:none;
-margin:0;
-padding:0;
-overflow:hidden;
-}
-li
-{
-float:left;
-}
-a:link,a:visited
-{
-display:block;
-width:120px;
-font-weight:bold;
-color:#FFFFFF;
-background-color:#98bf21;
-text-align:center;
-padding:4px;
-text-decoration:none;
-text-transform:uppercase;
-font-size: 140px
-}
-a:hover,a:active
-{
-background-color:#7A991A;
+div.Tab {
+	width: 90px;
+	height: 78px;
 }
 
-tr{
-align:left;}
-td.Move{
-align:right;}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+li {
+	float: left;
+}
+
+a:link,a:visited {
+	display: block;
+	width: 120px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #98bf21;
+	text-align: center;
+	padding: 4px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 140px
+}
+
+a:hover,a:active {
+	background-color: #7A991A;
+}
+
+tr {
+	align: left;
+}
+
+td.Move {
+	align: right;
+}

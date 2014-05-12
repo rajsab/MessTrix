@@ -1,5 +1,7 @@
 package actionClass.employee;
 import java.sql.*;
+
+import DatabaseConnection.sqlConnectivity;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -77,7 +79,7 @@ class employee{
 public class show_employees extends ActionSupport {
 	String send="failure";
 	private String messname;
-	
+	sqlConnectivity s=new sqlConnectivity();
 	private ArrayList<employee> name=new ArrayList<employee>();
 	Map<?, ?> session = ActionContext.getContext().getSession();
 	public String execute(){
@@ -90,7 +92,24 @@ public class show_employees extends ActionSupport {
 			return "failure";
 		}
 		else{
-		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
+			String Conname,uname,pwd;
+			Conname=s.sql_connection;
+			uname=s.uname;
+			pwd=s.pwd;
+			try {
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Connection con=DriverManager.getConnection(Conname,uname,pwd);
+						
 		String sql1="select id,name,wage,mob,gender from employee where mess_name=?";
 		PreparedStatement ps=con.prepareStatement(sql1);
 		ps.setString(1, messname);

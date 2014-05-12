@@ -1,5 +1,5 @@
 package actionClass.stock;
-
+import DatabaseConnection.sqlConnectivity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,6 +11,7 @@ import java.util.Map;
 import com.opensymphony.xwork2.ActionContext;
 class bill{
 	private String vendor_name,due;
+
 	public String getVendor_name() {
 		return vendor_name;
 	}
@@ -25,7 +26,7 @@ class bill{
 	}
 }
 public class DueBill {
-
+	sqlConnectivity s=new sqlConnectivity();
 	private ArrayList<bill> complete=new ArrayList<bill>();
 	public String execute(){
 		Map session=ActionContext.getContext().getSession();
@@ -36,7 +37,12 @@ public class DueBill {
 			return "failure";
 		}else{
 		try {
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
+			String Conname,uname,pwd;
+			Conname=s.sql_connection;
+			uname=s.uname;
+			pwd=s.pwd;
+			Connection con=DriverManager.getConnection(Conname,uname,pwd);
+						
 			String sql="select vendor_name,sum(amount)-sum(amount_paid) as due from bill group by vendor_name";
 			PreparedStatement ps=con.prepareStatement(sql);
 			ResultSet rs=ps.executeQuery();

@@ -1,6 +1,7 @@
 package actionClass.student;
 
 import java.sql.Connection;
+import DatabaseConnection.sqlConnectivity;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.sun.org.apache.xerces.internal.impl.dv.xs.DayDV;
 import org.joda.time.Days;
 public class Messcut extends ActionSupport {
-private String start,end,roll;
+private String start,end,roll,messname;
+sqlConnectivity s=new sqlConnectivity();
 public void setDays(int days) {
 	this.days = days;
 }
@@ -40,6 +42,12 @@ public void setStart(String start) {
 public String getEnd() {
 	return end;
 }
+public String getMessname() {
+	return messname;
+}
+public void setMessname(String messname) {
+	this.messname = messname;
+}
 /**
  * @param end the end to set
  */
@@ -49,27 +57,13 @@ public void setEnd(String end) {
 public String execute(){
 	
 	SimpleDateFormat formater=new SimpleDateFormat("mm-dd-yyyy");
-	Date a1,a2;
-	String messname;
-		try {
-			a1=formater.parse(start);
-			a2=formater.parse(end);
-		DateTime day1=new DateTime(a1);
-		DateTime day2=new DateTime(a2);
-		days=Days.daysBetween(day1,day2).getDays();
-		if(days>10){
-			addActionError("Days are greater than 10");
-		}
-		
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		try{
-			Map session = ActionContext.getContext().getSession();
+	
+	Map session = ActionContext.getContext().getSession();
 
-			messname=(String) session.get("a");
-			if(messname==null){
+	messname=(String) session.get("a");
+
+		try{
+				if(messname==null){
 				((org.apache.struts2.dispatcher.SessionMap) ActionContext.getContext().getSession()).invalidate(); //invalidates the session
 				ActionContext.getContext().getSession().clear();//clear session value
 				return "failure";
@@ -78,8 +72,13 @@ public String execute(){
 			int cut=0;
 			int month=cal.get(Calendar.MONTH);
 			month++;
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
 			
+			String Conname,uname,pwd;
+			Conname=s.sql_connection;
+			uname=s.uname;
+			pwd=s.pwd;
+			Connection con=DriverManager.getConnection(Conname,uname,pwd);
+						
 			String sql2="select mess_days from mess_enrollment where s_roll= ? and date_of_joining like ?  and mess_name= ?";
 			PreparedStatement ps=con.prepareStatement(sql2);
 			ps.setString(1, roll);
@@ -131,5 +130,33 @@ public void setRoll(String roll) {
 	this.roll = roll;
 }
 
+public void validate(){
+	if(roll.length()==0){
+		addActionError("Please specify roll");
+	}
+	SimpleDateFormat formater=new SimpleDateFormat("mm-dd-yyyy");
+	if(messname==null){
+		((org.apache.struts2.dispatcher.SessionMap) ActionContext.getContext().getSession()).invalidate(); //invalidates the session
+		ActionContext.getContext().getSession().clear();//clear session value
+	}
+	if(start.length()==0 || end.length()==0){
+		addActionError("Please specify date");
+	}
+	Date a1,a2;
+	try {
+		a1=formater.parse(start);
+		a2=formater.parse(end);
+		DateTime day1=new DateTime(a1);
+		DateTime day2=new DateTime(a2);
+		days=Days.daysBetween(day1,day2).getDays();
+		if(days>10){
+			addActionError("Days are greater than 10");
+		}
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+}
 
 }

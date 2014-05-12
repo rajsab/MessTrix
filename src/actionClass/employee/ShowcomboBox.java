@@ -1,6 +1,8 @@
 package actionClass.employee;
 
 import java.sql.*;
+
+import DatabaseConnection.sqlConnectivity;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -9,6 +11,9 @@ import com.opensymphony.xwork2.ActionSupport;
 public class ShowcomboBox extends ActionSupport{
 
 	private String messname,eid,ename,wage,mob,mname;
+	sqlConnectivity s=new sqlConnectivity();
+	String Conname,uname,pwd;
+	
 	public String getEname() {
 		return ename;
 	}
@@ -34,16 +39,18 @@ public class ShowcomboBox extends ActionSupport{
 	 */
 		public ShowcomboBox(){
 			Map session = ActionContext.getContext().getSession();
-
+			
 			messname=(String) session.get("a");
 			if(messname==null){
 				((org.apache.struts2.dispatcher.SessionMap) ActionContext.getContext().getSession()).invalidate(); //invalidates the session
 				ActionContext.getContext().getSession().clear();//clear session value
 				
 			}else{
-			try {
-				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
+			try {Conname=s.sql_connection;
+			uname=s.uname;
+			pwd=s.pwd;
 				String sql="select name from employee where mess_name=?";
+				Connection con=DriverManager.getConnection(Conname,uname,pwd);
 				PreparedStatement ps=con.prepareStatement(sql);
 				ps.setString(1, messname);
 				ResultSet rs=ps.executeQuery();
@@ -72,8 +79,23 @@ public class ShowcomboBox extends ActionSupport{
 		messname=(String) session.get("a");
 		
 		try {
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
-			String sql="select id,wage,mob from employee where mess_name='"+messname+"' and name='"+ename+"'";
+			Conname=s.sql_connection;
+			uname=s.uname;
+			pwd=s.pwd;
+			try {
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Connection con=DriverManager.getConnection(Conname,uname,pwd);
+			String sql="select id,mob,wage from employee where mess_name='"+messname+"' and name='"+ename+"'";
 			PreparedStatement ps=con.prepareStatement(sql);
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){

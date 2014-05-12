@@ -1,6 +1,7 @@
 package actionClass.student;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,9 +11,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import DatabaseConnection.sqlConnectivity;
+import DatabaseConnection.sqlConnectivity;
 
 import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.LocatorEx.Snapshot;
 class itemdetail{
+
 	private String id,quantity,name;
 
 	public String getId() {
@@ -39,14 +45,16 @@ class itemdetail{
 		this.name = name;
 	}
 
-	/**
-	 * @return the curMonth
-	 */
-	
 }
-public class studentQuery {
+
+
+public class studentQuery extends ActionSupport{
 	Map session = ActionContext.getContext().getSession();
-	private String roll,messname,curMonth;
+	sqlConnectivity s=new sqlConnectivity();
+	private String roll,messname,curMonth,total;
+	public String getTotal() {
+		return total;
+	}
 	public String getCurMonth() {
 		return curMonth;
 	}
@@ -77,28 +85,6 @@ public class studentQuery {
 	 * @param roll the roll to set
 	 */
 
-	
-	/*public String execute(){
-		
-	}*/
-	public studentQuery(){
-		month.add("1");
-		month.add("2");
-		month.add("3");
-		month.add("4");
-		month.add("5");
-		month.add("6");
-		month.add("7");
-		month.add("8");
-		month.add("9");
-		month.add("10");
-		month.add("11");
-		month.add("12");
-	}
-	
-	public String fillMonth(){
-		return "filled";
-	}
 	public void setRoll(String roll) {
 		this.roll = roll;
 	}
@@ -118,19 +104,39 @@ public class studentQuery {
 			return "failure";
 		}
 		String date=df.format(d);
-		curMonth=0+curMonth;
+		
 		try{
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
-			String sql="select e.id,e.quantity,i.name as name from extra e,item i where roll='"+roll+"' and e.itemid=i.item_id and e.mess_name='"+messname+"' and e.id like '%-"+curMonth+"-%'";
+			String Conname,uname,pwd;
+			Conname=s.sql_connection;
+			uname=s.uname;
+			pwd=s.pwd;
+			Connection con=DriverManager.getConnection(Conname,uname,pwd);
+						
+			String sql="select e.id,e.quantity,e.itemid from extra e where roll=? and e.mess_name=? and e.id like ?";
+			
 			PreparedStatement ps=con.prepareStatement(sql);
+			ps.setString(1, roll);
+			ps.setString(2, messname);
+			ps.setString(3, "%-%"+curMonth+"-%");
+
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){
 				itemdetail i=new itemdetail();
 				i.setId(rs.getString("id"));
-				i.setName(rs.getString("name"));
+				i.setName(rs.getString("itemid"));
 				i.setQuantity(rs.getString("quantity"));
 				extra.add(i);
 			}
+			sql="select extra from mess_enrollment where s_roll=? and mess_name=? and date_of_joining like ?";
+			ps=con.prepareStatement(sql);
+			ps.setString(1, roll);
+			ps.setString(2, messname);
+			ps.setString(3, "%-%"+curMonth+"-%");
+			rs=ps.executeQuery();
+			if(rs.next()){
+				total=rs.getString("extra");
+			}
+			System.out.println(total);
 		return "success";
 		}
 		catch(SQLException e){
@@ -142,5 +148,14 @@ public class studentQuery {
 			
 		}
 		
+	}
+	
+	public void validate(){
+		if(curMonth.length()==0){
+			addFieldError("curMonth", "please fill current month");
+		}
+		if(roll.length()==0){
+			addFieldError("roll", "please fill roll");
+		}
 	}
 }

@@ -3,118 +3,285 @@
 	 "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"  
     "http://struts.apache.org/dtds/struts-2.5.dtd">  
 <struts>
-<constant name="struts.devMode" value="true"></constant>
+<constant name="struts.devMode" value="false"></constant>
 	
 	<package name="default" extends="struts-default" namespace="/">
+		<interceptors>
+		<interceptor name="session" class="interceptor.SessionChecker"></interceptor>
+		<interceptor-stack name="sessionExpireStack">
+		<interceptor-ref name="session"></interceptor-ref>
+		<interceptor-ref name="defaultStack"></interceptor-ref>
 		
-		<action name="login" class="actionClass.LoginAction">
-			<result name="success">Employee.jsp</result>
+		</interceptor-stack>
+		</interceptors>
+		<action name="login" class="actionClass.LoginAction">		
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
+		
+		<result name="success">Employee.jsp</result>
 			<result name="input">Index.jsp</result>
 		</action>
 		
-		<action name="addemployee" class="actionClass.employee.add_Employee">
-			<result name="success">Add_employee.jsp</result>
-			<result name="fail">Index.jsp</result>
+	 	<action name="addEmployee" class="actionClass.employee.add_Employee">		
+	 		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+	 		<result name="success" type="redirect">
+			<param name="location">
+			Add_employee.jsp
+			</param>
+			</result>
+			<result name="input">Add_employee.jsp</result>
+			<result name="failure">Index.jsp</result>
+			<result name="session">Index.jsp</result>
 		</action>
+		
 		<action name="getEmployee" class="actionClass.employee.show_employees">
+			<interceptor-ref name="sessionExpireStack"></interceptor-ref>
 			<result name="success">showEmployee.jsp</result>
 			<result name="failure">Index.jsp</result>
+			<result name="session">Index.jsp</result>
 		</action>
 
 		<action name="payemployee" class="actionClass.employee.payment_Employee">
-			<result name="success">Employee_payment.jsp</result>
+			<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="success">Employee.jsp</result>
+			<result name="input">Employee_payment.jsp</result>
 			<result name="failure">Index.jsp</result>
+			<result name="session">Index.jsp</result>
+		</action>
+		
+		<action name="autoCompleteVendor" class="actionClass.stock.autoComplete" method="fillVendor">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="success">addBill.jsp</result>
+			<result name="failure">addBill.jsp</result>
+			<result name="input">addBill.jsp</result>
+			<result name="session">Index.jsp</result>
 		</action>
 		
 		<action name="addvendor" class="actionClass.stock.AddVendor">
-			<result name="success">addVendor.jsp</result>
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
+			<result name="success" type="redirect">
+			<param name="location">
+			addVendor.jsp
+			</param>
+			</result>
+			<result name="failure">Index.jsp</result>
+			<result name="input">addVendor.jsp</result>
+		</action>
+		
+	  <action name="generatebill" class="actionClass.student.generateBill">
+	<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
+			<result name="success">NewFile.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 		
 		<action name="addItem" class="actionClass.stock.Add_item">
-			<result name="success">stock.jsp</result>
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
+			<result name="success" type="redirect">
+			<param name="location">
+			stock.jsp
+			</param>
+			</result>
 			<result name="failure">Index.jsp</result>
+			<result name="input">stock.jsp</result>
 		</action>
 		
 		<action name="getItem" class="actionClass.stock.Showitem">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+		<result name="session">Index.jsp</result>
 			<result name="success">showitemStock.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 		
 		<action name="editItem" class="actionClass.stock.Updatestock" method="display">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+		<result name="session">Index.jsp</result>
 			<result name="success">updatestock.jsp</result>
+			<result name="input">updatestock.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 	
 		<action name="updateStock" class="actionClass.stock.Updatestock">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="success">updatestock.jsp</result>
+			<result name="input">updatestock.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 		
 
 		
 		<action name="displayEmployeeId" class="actionClass.employee.ShowcomboBox" method="display_combobox">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="display">Edit_employee.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 		
 		<action name="displayEmployee_detail" class="actionClass.employee.ShowcomboBox">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+				<result name="session">Index.jsp</result>
 			<result name="success">showedit_employee.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 		
 		<action name="student-Entry" class="actionClass.student.Enroll_student">
-			<result name="success">student.jsp</result>
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
+			<result name="success" type="redirect">
+			<param name="location">
+			student.jsp
+			</param>
+			</result>
+			<result name="input">student.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 		
 		<action name="studentExtra" class="actionClass.student.Addextra">
-			<result name="success">student_Extra.jsp</result>
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
+			<result name="success">student.jsp</result>
+			<result name="input" >student_Extra.jsp</result>
+			<result name="noquantity">NoQuantity.jsp</result>
 			<result name="failure">Index.jsp</result>
+			<result name="reached">NoExtra.jsp</result>
 		</action>
 		
 		<action name="messcut" class="actionClass.student.Messcut">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="success">messcut.jsp</result>
 			<result name="input">messcut.jsp</result>
+			<result name="failure">Index.jsp</result>
 		</action>
 		
 		<action name="editEmployee" class="actionClass.employee.editEmployee">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="success">Employee.jsp</result>
+			<result name="input">showedit_employee.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 			
-		<action name="displayMonths" class="actionClass.student.studentQuery" method="fillMonth">
+		<action name="displayMonths" class="Fillmonth" method="fill">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="filled">showExtra.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
 		
 		<action name="showStudentQuery" class="actionClass.student.studentQuery">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="success">showStudentQuery.jsp</result>
+			<result name="input">showExtra.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
+		
 		<action name="addBill" class="actionClass.stock.AddBill">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="success">addBill.jsp</result>
+			<result name="input">addBill.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
+		
+		<action name="displayMonthinbillcharge" class="Fillmonth" method="fill">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
+			<result name="filled">Messcharge.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
 		<action name="billDue" class="actionClass.stock.DueBill">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="success">dueBill.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
-		<action name="displayMonth" class="actionClass.student.studentQuery" method="fillMonth">
+	
+		<action name="displayMonth" class="Fillmonth" method="fill">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+		<result name="session">Index.jsp</result>
 			<result name="filled">SelectMonth.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
+		
 		<action name="ShowPaymentHistory" class="actionClass.employee.PaymentHistory">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
 			<result name="success">showPayment.jsp</result>
 			<result name="failure">Index.jsp</result>
+			<result name="session">Index.jsp</result>
 		</action>
+		
 		<action name="autoComplete" class="actionClass.stock.autoComplete">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="success">editStock.jsp</result>
 			<result name="failure">Index.jsp</result>
+			<result name="session">Index.jsp</result>
 		</action>
-		<action name="showMonth" class="actionClass.stock.Showitem" method="showmonth">
+	
+		<action name="showMonth" class="Fillmonth" method="fill">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
 			<result name="filled">selectMonth.jsp</result>
 			<result name="failure">Index.jsp</result>
 		</action>
-	</package>
+		
+		<action name="displayName" class="actionClass.employee.ShowcomboBox" method="display_combobox">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="display">Employee_payment.jsp</result>
+			<result name="session">Index.jsp</result>
+			<result name="input">Employee_payment.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+	
+		<action name="displayRolls" class="actionClass.student.showRoll">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="success">student_Extra.jsp</result>
+			<result name="session">Index.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+	
+		<action name="delete_record" class="actionClass.student.deleteExtra">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="success">student_Extra.jsp</result>
+			<result name="sorry">Sorry.jsp</result>
+			<result name="failure">Index.jsp</result>
+			<result name="session">Index.jsp</result>
+		</action>
+	
+		<action name="addDailyItem" class="actionClass.stock.AddDailyStock">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+		<result name="success">AddDailystock.jsp</result>
+		<result name="input">AddDailystock.jsp</result>
+		<result name="session">Index.jsp</result>
+			<result name="failure">Index.jsp</result>
+		</action>
+		
+		<action name="updateDailyStock" class="actionClass.stock.UpdateDailyStock">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+		<result name="success">UpdateDailyStock.jsp</result>
+		<result name="input">UpdateDailyStock.jsp</result>
+		<result name="failure">Index.jsp</result>
+		<result name="session">Index.jsp</result>
+		</action>
+		
+		<action name="fillupdateDailyBox" class="actionClass.stock.ShowDailystock">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+		<result name="success">UpdateDailyStock.jsp</result>
+		<result name="failure">Index.jsp</result>
+		<result name="session">Index.jsp</result>
+		</action>
+		
+		<action name="logout" class="Logout">
+		<interceptor-ref name="sessionExpireStack"></interceptor-ref>
+			<result name="session">Index.jsp</result>
+		<result name="success">Index.jsp</result>
+		</action>
+		
+		</package>
 </struts>

@@ -1,12 +1,14 @@
 package actionClass.stock;
 import java.sql.*;
+
+import DatabaseConnection.sqlConnectivity;
 import java.util.ArrayList;
 import java.util.Map;
 
 
 import com.opensymphony.xwork2.ActionContext;
 class item{
-	private String name,item_id,quantity,price,vendor;
+	private String name,item_id,quantityBorrowed,quantityLeft,price,vendor;
 	
 	public String getName() {
 		return name;
@@ -23,14 +25,6 @@ class item{
 	
 	public void setItem_id(String item_id) {
 		this.item_id = item_id;
-	}
-
-	public String getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(String quantity) {
-		this.quantity = quantity;
 	}
 
 	public String getPrice() {
@@ -50,10 +44,39 @@ class item{
 	}
 
 	/**
+	 * @return the quantityBorrowed
+	 */
+	public String getQuantityBorrowed() {
+		return quantityBorrowed;
+	}
+
+	/**
+	 * @param quantityBorrowed the quantityBorrowed to set
+	 */
+	public void setQuantityBorrowed(String quantityBorrowed) {
+		this.quantityBorrowed = quantityBorrowed;
+	}
+
+	/**
+	 * @return the quantityLeft
+	 */
+	public String getQuantityLeft() {
+		return quantityLeft;
+	}
+
+	/**
+	 * @param quantityLeft the quantityLeft to set
+	 */
+	public void setQuantityLeft(String quantityLeft) {
+		this.quantityLeft = quantityLeft;
+	}
+
+	/**
 	 * @return the month
 	 */
 	}
 public class Showitem {
+	sqlConnectivity s=new sqlConnectivity();
 	String send="failure";
 	private String messname;
 	private ArrayList<String> fillmonth=new ArrayList<String>();
@@ -69,11 +92,15 @@ public class Showitem {
 	public String execute(){	
 	try{
 		messname=(String) session.get("a");
-		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
-		String sql="select i.item_id,i.name,i.price,ie.Quantity,v.name as vendor from item i,vendor v,item_entry ie where i.mess_name=? and i.vender=v.id and ie.D_O_P like ?";
+		String Conname,uname,pwd;
+		Conname=s.sql_connection;
+		uname=s.uname;
+		pwd=s.pwd;
+		Connection con=DriverManager.getConnection(Conname,uname,pwd);
+					
+		String sql="select i.item_id,i.name,i.price,v.name as vendor,sum(ie.quantity) as quantityBorrowed,iex.quantity as quantityLeft from vendor v,item i,item_entry ie,item_extra iex where i.mess_name=? and v.id=i.vender and i.item_id=iex.item_id and ie.item_id=i.item_id group by (iex.item_id)";
 		PreparedStatement ps=con.prepareStatement(sql);
 		ps.setString(1, getMessname());
-		ps.setString(2, "%-_"+curmonth+"-%");
 		ResultSet rs=ps.executeQuery();
 		System.out.print(getMessname());
 		while (rs.next()) {
@@ -82,7 +109,8 @@ public class Showitem {
 			i.setItem_id(rs.getString("item_id"));
 			i.setName(rs.getString("name"));
 			i.setPrice(rs.getString("price"));
-			i.setQuantity(rs.getString("Quantity"));
+			i.setQuantityBorrowed(rs.getString("quantityBorrowed"));
+			i.setQuantityLeft(rs.getString("quantityLeft"));
 			i.setVendor(rs.getString("vendor"));
 			itemd.add(i);
 			
@@ -94,27 +122,7 @@ public class Showitem {
 	}
 	return send;
 }
-	
-	public  Showitem() {
-		// TODO Auto-generated constructor stub
-		fillmonth.add("1");
-		fillmonth.add("2");
-		fillmonth.add("3");
-		fillmonth.add("4");
-		fillmonth.add("5");
-		fillmonth.add("6");
-		fillmonth.add("7");
-		fillmonth.add("8");
-		fillmonth.add("9");
-		fillmonth.add("10");
-		fillmonth.add("11");
-		fillmonth.add("12");
 
-	}
-
-	public String showmonth(){
-		return "filled";
-	}
 	public String getMessname() {
 		return messname;
 	}

@@ -1,17 +1,9 @@
 package DatabaseConnection;
-import java.sql.*;
+
 public class sqlConnectivity {
-	private Connection con;
+	public final static String sql_connection="jdbc:mysql://localhost:3306/messproject";
+	public final static String uname="rajdeep";
+	public final static String pwd="messtrix";
 	
-	public Connection getCon() {
-		return con;
-	}
-	public void setCon(Connection con) {
-		try {
-			this.con=DriverManager.getConnection("jdbc:mysql://localhost:3306/messproject","root","1234");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 }
